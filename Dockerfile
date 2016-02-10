@@ -54,12 +54,14 @@ RUN curl -O http://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hado
 # Triggers fetching the complete sbt environment
 RUN ${PIO_HOME}/sbt/sbt -batch
 
-# Add engine deploy script
+# Add scripts
 ADD files/deploy_engine.sh .
 ADD files/entrypoint.sh .
+
+RUN chmod +x entrypoint.sh && chmod +x deploy_engine.sh
 
 # Expose HTTP ports (event server and recommendation server)
 EXPOSE 7070 8000
 
 # Entrypoint definition -> Run services
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
