@@ -56,9 +56,10 @@ RUN ${PIO_HOME}/sbt/sbt -batch
 
 # Add engine deploy script
 ADD files/deploy_engine.sh .
+ADD files/entrypoint.sh .
 
 # Expose HTTP ports (event server and recommendation server)
 EXPOSE 7070 8000
 
 # Entrypoint definition -> Run services
-ENTRYPOINT ["/PredictionIO-0.9.5/bin/pio-start-all"]
+ENTRYPOINT ["./entrypoint.sh"]
