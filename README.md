@@ -50,3 +50,46 @@ EXPOSE 7070 8000
 
 ENTRYPOINT ["/PredictionIO-0.9.5/bin/pio-start-all"]
 ```
+
+### With Mesos/Marathon
+To run the container with Marathon on Mesos with bridge networking, issue the following command (replace `<MarathonServer>` with an actual IP or hostname):
+
+```Bash
+curl -H "Content-Type: application/json" -XPOST 'http://<MarathonServer>:8080/v2/apps' -d '{
+    "id": "predictionio-server",
+    "container": {
+        "docker": {
+            "image": "tobilg/predictionio",
+            "network": "BRIDGE",
+			"portMappings": [
+			  { "containerPort": 7070 },
+			  { "containerPort": 8000 }
+			]
+        },
+        "type": "DOCKER"
+    },
+    "cpus": 4,
+    "mem": 8192,
+    "instances": 1
+}'
+```
+
+You'll have to have a look at the launched task to see where the container is actually launched, or use a service discovery tool such as Mesos DNS.
+If you want to use static ports, you have to use `HOST` networking like this:
+
+```Bash
+curl -H "Content-Type: application/json" -XPOST 'http://<MarathonServer>:8080/v2/apps' -d '{
+    "id": "predictionio-server",
+    "container": {
+        "docker": {
+            "image": "tobilg/predictionio",
+            "network": "HOST"
+        },
+        "type": "DOCKER"
+    },
+    "cpus": 4,
+    "mem": 8192,
+    "instances": 1,
+	"ports": [7070, 8000]
+}'
+```
