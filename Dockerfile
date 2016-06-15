@@ -2,10 +2,10 @@ FROM java:openjdk-8-jdk
 MAINTAINER tobilg <fb.tools.github@gmail.com>
 
 # Environment variables
-ENV PIO_VERSION 0.9.5
-ENV SPARK_VERSION 1.6.0
+ENV PIO_VERSION 0.9.6
+ENV SPARK_VERSION 1.6.7
 ENV ELASTICSEARCH_VERSION 1.7.5
-ENV HBASE_VERSION 1.0.3
+ENV HBASE_VERSION 1.2.1
 
 # Base paths
 ENV PIO_HOME /PredictionIO-${PIO_VERSION}
