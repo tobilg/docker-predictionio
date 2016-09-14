@@ -48,7 +48,7 @@ RUN ./deploy_engine.sh
 
 EXPOSE 7070 8000
 
-ENTRYPOINT ["/PredictionIO-0.9.5/bin/pio-start-all"]
+ENTRYPOINT ["/PredictionIO-0.9.6/bin/pio-start-all"]
 ```
 
 ### With Mesos/Marathon
