@@ -2,13 +2,13 @@ FROM java:openjdk-8-jdk
 MAINTAINER tobilg <fb.tools.github@gmail.com>
 
 # Environment variables
-ENV PIO_VERSION 0.9.6
+ENV PIO_VERSION 0.10.0
 ENV SPARK_VERSION 1.6.1
 ENV ELASTICSEARCH_VERSION 1.7.5
 ENV HBASE_VERSION 1.0.3
 
 # Base paths
-ENV PIO_HOME /PredictionIO-${PIO_VERSION}
+ENV PIO_HOME /apache-predictionio-${PIO_VERSION}-incubating
 ENV PATH=${PIO_HOME}/bin:$PATH
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
@@ -17,10 +17,11 @@ RUN apt-get update && \
     apt-get install -y curl libgfortran3 python-pip 
 
 # Install prediction.io itself
-RUN curl -O https://d8k1yxp8elc6b.cloudfront.net/PredictionIO-${PIO_VERSION}.tar.gz && \
+RUN curl http://xenia.sote.hu/ftp/mirrors/www.apache.org/incubator/predictionio/${PIO_VERSION}-incubating/apache-predictionio-${PIO_VERSION}-incubating.tar.gz -o PredictionIO-${PIO_VERSION}.tar.gz && \
     tar -xvzf PredictionIO-${PIO_VERSION}.tar.gz -C / && \
     mkdir -p ${PIO_HOME}/vendors && \
-    rm PredictionIO-${PIO_VERSION}.tar.gz
+    rm PredictionIO-${PIO_VERSION}.tar.gz && \
+    ${PIO_HOME}/make-distribution.sh
 
 # Add prediction.io configuration
 ADD files/pio-env.sh ${PIO_HOME}/conf/pio-env.sh
@@ -50,9 +51,6 @@ RUN curl -O http://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hado
     tar -xvzf spark-${SPARK_VERSION}-bin-hadoop2.6.tgz -C ${PIO_HOME}/vendors && \
     rm spark-${SPARK_VERSION}-bin-hadoop2.6.tgz && \
     rm -rf ${PIO_HOME}/vendors/spark-${SPARK_VERSION}-bin-hadoop2.6/examples
-
-# Triggers fetching the complete sbt environment
-RUN ${PIO_HOME}/sbt/sbt -batch
 
 # Add scripts
 ADD files/deploy_engine.sh .

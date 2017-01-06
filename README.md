@@ -5,8 +5,8 @@ server for developers and data scientists to build and deploy predictive
 applications in a fraction of the time.
 
 ## Contents
-As of 2016-06-15 this container has the following applications installed:
-* PredictionIO 0.9.6
+As of 2017-01-06 this container has the following applications installed:
+* PredictionIO 0.10.0
 * Spark 1.6.1
 * Elasticsearch 1.7.5
 * HBase 1.0.3
